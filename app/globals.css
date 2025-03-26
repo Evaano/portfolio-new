@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@layer base {
+    html {
+        @apply h-full;
+    }
+
+    body {
+        @apply h-full;
+        background: radial-gradient(circle, #f66e99 0%, #000000 100%);
+    }
+
+    #__next {
+        @apply h-full;
+    }
+}
