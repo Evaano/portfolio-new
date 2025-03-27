@@ -1,7 +1,7 @@
 import { Button, Image, Stack, Text, Title } from '@mantine/core';
 import { Cursor, useTypewriter } from 'react-simple-typewriter';
 import { socialMedia } from '@/app/data/data';
-import bannerImage from '@/public/bannerImg.webp';
+import cheese from '@/public/cheese.jpg';
 import NextImage from 'next/image';
 
 export default function PersonalInfo() {
@@ -15,7 +15,7 @@ export default function PersonalInfo() {
 
   return (
     <>
-      <Image component={NextImage} radius="lg" src={bannerImage} alt={'banner'} mt="sm" />
+      <Image component={NextImage} radius="lg" src={cheese} alt={'banner'} mt="sm" />
       <Stack align="center" my="lg">
         <Title order={2}>Evan Rasheed</Title>
         <Text className="tracking-wide" c="pink">
@@ -36,24 +36,15 @@ export default function PersonalInfo() {
         </div>
 
         <div className="flex h-14 justify-center">
-          <a
-            href={
-              'https://drive.google.com/file/d/1wXbxwt6TyojadYmgPvXmz0mFU3-QWYTH/view?usp=drive_link'
-            }
+          <Button
+            component="a"
+            variant="outline"
+            href="https://drive.google.com/file/d/1-IYJzjgbVP5QPo7BppYXJ9LpyJLa5BSq/view?usp=drive_link"
             target="_blank"
-            download
-            rel="noreferrer"
+            c="pink"
           >
-            <Button
-              component="a"
-              variant="outline"
-              href="https://drive.google.com/file/d/1-IYJzjgbVP5QPo7BppYXJ9LpyJLa5BSq/view?usp=drive_link"
-              target="_blank"
-              c="pink"
-            >
-              Download CV
-            </Button>
-          </a>
+            Download CV
+          </Button>
         </div>
       </Stack>
     </>
