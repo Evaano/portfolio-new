@@ -1,0 +1,11 @@
+Model Information:
+* title:	Krixi Valentine (AOV)
+* source:	https://sketchfab.com/3d-models/krixi-valentine-aov-f4e978e50c9048d49d281e38c32621d0
+* author:	PetalThePotato (https://sketchfab.com/PetalThePotato)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Krixi Valentine (AOV)" (https://sketchfab.com/3d-models/krixi-valentine-aov-f4e978e50c9048d49d281e38c32621d0) by PetalThePotato (https://sketchfab.com/PetalThePotato) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

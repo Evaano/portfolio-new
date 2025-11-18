@@ -1,8 +1,7 @@
-import { Button, Image, Stack, Text, Title } from '@mantine/core';
+import { Button, Stack, Text, Title } from '@mantine/core';
 import { Cursor, useTypewriter } from 'react-simple-typewriter';
 import { socialMedia } from '@/app/data/data';
-import cheese from '@/public/cheese.jpg';
-import NextImage from 'next/image';
+import KrixiModel from './krixi-model';
 
 export default function PersonalInfo() {
   const [text] = useTypewriter({
@@ -15,7 +14,7 @@ export default function PersonalInfo() {
 
   return (
     <>
-      <Image component={NextImage} radius="lg" src={cheese} alt={'banner'} mt="sm" />
+      <KrixiModel />
       <Stack align="center" my="lg">
         <Title order={2}>Evan Rasheed</Title>
         <Text className="tracking-wide" c="pink">
