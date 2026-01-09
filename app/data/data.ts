@@ -14,6 +14,10 @@ import uber from '@/public/uber.jpg';
 import pos from '@/public/pos.png';
 import pet from '@/public/lost-pet.jpg';
 import hr from '@/public/hr.png';
+import spotify from '@/public/spotify.png';
+import plushie from '@/public/plushie.png';
+import toram from '@/public/toram.png';
+import ngo from '@/public/ngo.png';
 
 export const languages = [
   { name: 'JavaScript/Typescript', level: 'w-[95%]' },
@@ -55,6 +59,8 @@ export type Project = {
   tech: string;
   src: StaticImageData;
   alt?: string;
+  liveUrl?: string;
+  loginInfo?: string;
 };
 
 export const projects: Project[] = [
@@ -63,6 +69,8 @@ export const projects: Project[] = [
     tech: 'React Router v7, Mantine',
     src: pos,
     alt: 'POS banner',
+    liveUrl: 'https://pos-gules-ten.vercel.app/',
+    loginInfo: 'Login: user@gmail.com | Password: test@123',
   },
   {
     name: 'HR App',
@@ -105,5 +113,33 @@ export const projects: Project[] = [
     tech: 'React Native',
     src: pet,
     alt: 'Lost pet finder banner',
+  },
+  {
+    name: 'Spotify Playlist Organizer',
+    tech: 'Fast API, React',
+    src: spotify,
+    alt: 'Spotify playlist organizer banner',
+    liveUrl: 'https://spoopysort.vercel.app/',
+  },
+  {
+    name: 'Ecommerce',
+    tech: 'SvelteKit, Svelte Shadcn',
+    src: plushie,
+    alt: 'Ecommerce banner',
+    liveUrl: 'https://plushie.vercel.app/',
+  },
+  {
+    name: 'Game Database',
+    tech: 'Tailwind, Next',
+    src: toram,
+    alt: 'Game database banner',
+    liveUrl: 'https://tailwind-css-starter-blog-azure-five.vercel.app/',
+  },
+  {
+    name: 'NGO Website',
+    tech: 'Astro, Decap',
+    src: ngo,
+    alt: 'NGO website banner',
+    liveUrl: 'https://ninelivesraajje.netlify.app/',
   },
 ];
