@@ -38,7 +38,7 @@ export default function PersonalInfo() {
           <Button
             component="a"
             variant="outline"
-            href="https://drive.google.com/file/d/1_FhN4P1mtj9KCTKV4Jfi7_UvZafAq4fL/view?usp=drive_link"
+            href="/CV.pdf"
             target="_blank"
             c="pink"
           >

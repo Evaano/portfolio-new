@@ -1,9 +1,7 @@
 import {
-  IconBrandFacebook,
   IconBrandGithub,
   IconBrandInstagram,
   IconBrandLinkedin,
-  IconBrandTwitter,
 } from '@tabler/icons-react';
 import type { StaticImageData } from 'next/image';
 import store from '@/public/store.png';
@@ -18,6 +16,9 @@ import spotify from '@/public/spotify.png';
 import plushie from '@/public/plushie.png';
 import toram from '@/public/toram.png';
 import ngo from '@/public/ngo.png';
+import atollVet from '@/public/atoll-vet.png';
+import zoniquePortal from '@/public/zonique-portal.png';
+import zoniqueStore from '@/public/zonique-store.png';
 
 export const languages = [
   { name: 'JavaScript/Typescript', level: 'w-[95%]' },
@@ -49,9 +50,7 @@ export const socialMedia = [
     Icon: IconBrandLinkedin,
     href: 'https://www.linkedin.com/in/evan-rashyd-603a20292/',
   },
-  { Icon: IconBrandTwitter, href: 'https://twitter.com/EvanRashyd' },
   { Icon: IconBrandInstagram, href: 'https://www.instagram.com/evanwhenmewhen' },
-  { Icon: IconBrandFacebook, href: 'https://facebook.com/evan.rasheed' },
 ];
 
 export type Project = {
@@ -64,6 +63,25 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    name: 'Atoll Vet',
+    tech: 'Svelte (Frontend)',
+    src: atollVet,
+    alt: 'Atoll Vet banner',
+    liveUrl: 'https://vet-kohl.vercel.app/',
+  },
+  {
+    name: 'Zonique Portal',
+    tech: 'SvelteKit',
+    src: zoniquePortal,
+    alt: 'Zonique Portal banner',
+  },
+  {
+    name: 'Zonique Store',
+    tech: 'React Router v7',
+    src: zoniqueStore,
+    alt: 'Zonique Store banner',
+  },
   {
     name: 'POS',
     tech: 'React Router v7, Mantine',

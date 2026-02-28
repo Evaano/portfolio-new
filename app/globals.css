@@ -2,6 +2,30 @@
 
 @tailwind utilities;
 
+@property --pink-a {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #f66e99;
+}
+
+@property --pink-b {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #a90039;
+}
+
+@property --spot-x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 20%;
+}
+
+@property --spot-y {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 20%;
+}
+
 @layer base {
     html {
         @apply h-full;
@@ -9,10 +33,45 @@
 
     body {
         @apply h-full;
-        background: radial-gradient(circle, #f66e99 0%, #000000 100%);
+        background: radial-gradient(circle at var(--spot-x) var(--spot-y), var(--pink-a) 0%, var(--pink-b) 100%);
+        background-attachment: fixed;
+        animation: pinkGradientShift 40s ease-in-out infinite alternate;
     }
 
     #__next {
         @apply h-full;
+    }
+}
+
+@keyframes pinkGradientShift {
+    0% {
+        --pink-a: #f66e99;
+        --pink-b: #a90039;
+        --spot-x: 20%;
+        --spot-y: 20%;
+    }
+    25% {
+        --pink-a: #7dd3fc;
+        --pink-b: #38bdf8;
+        --spot-x: 80%;
+        --spot-y: 25%;
+    }
+    50% {
+        --pink-a: #a5b4fc;
+        --pink-b: #60a5fa;
+        --spot-x: 60%;
+        --spot-y: 75%;
+    }
+    75% {
+        --pink-a: #f9a8d4;
+        --pink-b: #f472b6;
+        --spot-x: 30%;
+        --spot-y: 70%;
+    }
+    100% {
+        --pink-a: #fdba74;
+        --pink-b: #fb7185;
+        --spot-x: 20%;
+        --spot-y: 20%;
     }
 }
