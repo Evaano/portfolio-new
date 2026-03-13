@@ -87,7 +87,7 @@ export const projects: Project[] = [
     tech: 'React Router v7, Mantine',
     src: pos,
     alt: 'POS banner',
-    liveUrl: 'https://pos-gules-ten.vercel.app/',
+    liveUrl: 'https://pos-lemon-seven.vercel.app/',
     loginInfo: 'Login: user@gmail.com | Password: test@123',
   },
   {
