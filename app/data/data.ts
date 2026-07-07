@@ -18,7 +18,7 @@ import toram from '@/public/toram.png';
 import ngo from '@/public/ngo.png';
 import atollVet from '@/public/atoll-vet.png';
 import zoniquePortal from '@/public/zonique-portal.png';
-import zoniqueStore from '@/public/zonique-store.png';
+import environment from '@/public/environment.png';
 
 export const languages = [
   { name: 'JavaScript/Typescript', level: 'w-[95%]' },
@@ -29,7 +29,8 @@ export const languages = [
 ];
 
 export const frameworks = [
-  { name: 'Remix/React Router v7', level: 'w-[90%]' },
+  { name: 'Remix 3', level: 'w-[90%]' },
+  { name: 'React Router v7', level: 'w-[90%]' },
   { name: 'Next', level: 'w-[80%]' },
   { name: 'React', level: 'w-[85%]' },
   { name: 'Laravel', level: 'w-[50%]' },
@@ -56,13 +57,39 @@ export const socialMedia = [
 export type Project = {
   name: string;
   tech: string;
-  src: StaticImageData;
+  /** Local thumbnail. Omit to auto-generate a live screenshot from `liveUrl`. */
+  src?: StaticImageData;
   alt?: string;
   liveUrl?: string;
   loginInfo?: string;
 };
 
 export const projects: Project[] = [
+  {
+    name: 'Ministry of Environment',
+    tech: 'Next.js, Payload, Tailwind',
+    src: environment,
+    alt: 'Ministry of Environment website banner',
+    liveUrl: 'https://environment.gov.mv/',
+  },
+  {
+    name: 'Pekania',
+    tech: 'Next.js, Payload, Tailwind',
+    alt: 'Pekania football jersey store banner',
+    liveUrl: 'https://pekania.com/',
+  },
+  {
+    name: 'La Vera Pizzeria',
+    tech: 'Next.js, Payload, Tailwind',
+    alt: 'La Vera Pizzeria banner',
+    liveUrl: 'https://lavera-iota.vercel.app/',
+  },
+  {
+    name: 'Catmail',
+    tech: 'React, Vite',
+    alt: 'Catmail cat store banner',
+    liveUrl: 'https://catmail-plum.vercel.app/',
+  },
   {
     name: 'Atoll Vet',
     tech: 'Svelte (Frontend)',
@@ -75,12 +102,6 @@ export const projects: Project[] = [
     tech: 'SvelteKit',
     src: zoniquePortal,
     alt: 'Zonique Portal banner',
-  },
-  {
-    name: 'Zonique Store',
-    tech: 'React Router v7',
-    src: zoniqueStore,
-    alt: 'Zonique Store banner',
   },
   {
     name: 'POS',
