@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Container, Text } from '@mantine/core';
 import { motion } from 'motion/react';
 import BentoTile from '@/app/components/bento-tile';
@@ -8,9 +9,12 @@ import IdentityTile from '@/app/components/identity-tile';
 import TechMarquee from '@/app/components/tech-marquee';
 import SkillBars from '@/app/components/skill-bars';
 import ProjectsStack from '@/app/components/projects-stack';
-import KrixiModel from '@/app/components/krixi-model';
 import Introduction from '@/app/components/introduction';
 import { languages, frameworks, orms } from '@/app/data/data';
+
+// three.js is ~150kB of the initial bundle for a decorative tile — keep it out
+// of the critical path so the deck paints without waiting on it.
+const KrixiModel = dynamic(() => import('@/app/components/krixi-model'), { ssr: false });
 
 const grid = {
   hidden: {},

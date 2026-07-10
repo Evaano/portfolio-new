@@ -490,10 +490,28 @@
 #stars, #stars2 {
     @apply pointer-events-none;
     animation: animStar 50s linear infinite;
+    /* Keep each starfield on its own compositor layer so the scroll deck above
+       never triggers a repaint of ~700 box-shadows. */
+    will-change: transform;
 }
 
 #stars2 {
     animation-duration: 100s;
+}
+
+/* Rasterising two 4000px-tall layers of box-shadows costs real texture memory
+   on a phone. One field reads the same at that size. */
+@media (pointer: coarse) {
+    #stars2 {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #stars, #stars2 {
+        animation: none;
+        will-change: auto;
+    }
 }
 
 @keyframes animStar {

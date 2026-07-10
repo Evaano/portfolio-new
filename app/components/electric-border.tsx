@@ -141,8 +141,14 @@ export default function ElectricBorder({
     if (!ctx) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Touch devices can't hover, so the animated crackle is pure cost there —
+    // draw the border once and never schedule a frame.
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const staticOnly = reduce || coarse;
 
-    const octaves = 10;
+    // With gain 0.7 and baseFlatness 0, octave i contributes chaos*0.7^i*displacement
+    // px. Past the 6th that's <1px — invisible, but it was 40% of the trig cost.
+    const octaves = 6;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
@@ -150,6 +156,9 @@ export default function ElectricBorder({
     const baseFlatness = 0;
     const displacement = 60;
     const borderOffset = 60;
+    // Sample spacing in px along the perimeter. 2px was far finer than the
+    // jagged line reads at; 4px is indistinguishable and halves the work.
+    const sampleSpacing = 4;
 
     const updateSize = () => {
       const rect = container.getBoundingClientRect();
@@ -176,7 +185,10 @@ export default function ElectricBorder({
         height = s.height;
       }
 
-      const deltaTime = (currentTime - lastFrameTimeRef.current) / 1000;
+      // First frame after mount or after an offscreen pause: advance by one
+      // nominal tick instead of the whole elapsed gap, or the noise jumps.
+      const elapsed = currentTime - lastFrameTimeRef.current;
+      const deltaTime = lastFrameTimeRef.current === 0 || elapsed > 250 ? 1 / 60 : elapsed / 1000;
       timeRef.current += deltaTime * speed;
       lastFrameTimeRef.current = currentTime;
 
@@ -196,7 +208,7 @@ export default function ElectricBorder({
       const maxRadius = Math.min(borderWidth, borderHeight) / 2;
       const radius = Math.min(borderRadius, maxRadius);
       const approxPerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * radius;
-      const sampleCount = Math.floor(approxPerimeter / 2);
+      const sampleCount = Math.max(16, Math.floor(approxPerimeter / sampleSpacing));
 
       ctx.beginPath();
       for (let i = 0; i <= sampleCount; i++) {
@@ -211,22 +223,54 @@ export default function ElectricBorder({
       }
       ctx.closePath();
       ctx.stroke();
+    };
 
-      if (!reduce) animationRef.current = requestAnimationFrame(draw);
+    // 30fps is plenty for a crackling border and halves the trig budget.
+    const frameInterval = 1000 / 30;
+    let lastDrawn = 0;
+    const loop = (currentTime: number) => {
+      animationRef.current = requestAnimationFrame(loop);
+      if (currentTime - lastDrawn < frameInterval) return;
+      lastDrawn = currentTime;
+      draw(currentTime);
+    };
+
+    const start = () => {
+      if (animationRef.current !== null) return;
+      lastFrameTimeRef.current = 0;
+      animationRef.current = requestAnimationFrame(loop);
+    };
+    const stop = () => {
+      if (animationRef.current === null) return;
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
     };
 
     const resizeObserver = new ResizeObserver(() => {
       const s = updateSize();
       width = s.width;
       height = s.height;
+      if (staticOnly) draw(0);
     });
     resizeObserver.observe(container);
 
-    animationRef.current = requestAnimationFrame(draw);
+    // Eight of these are mounted at once on the deck; only animate the ones
+    // actually on screen.
+    let visibilityObserver: IntersectionObserver | undefined;
+    if (staticOnly) {
+      draw(0);
+    } else {
+      visibilityObserver = new IntersectionObserver(
+        ([entry]) => (entry.isIntersecting ? start() : stop()),
+        { rootMargin: '100px' }
+      );
+      visibilityObserver.observe(container);
+    }
 
     return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      stop();
       resizeObserver.disconnect();
+      visibilityObserver?.disconnect();
     };
   }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
 

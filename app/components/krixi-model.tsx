@@ -17,6 +17,7 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
     if (!containerRef.current) return;
     const container = containerRef.current;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
     // Guards the async GLTF callback against React StrictMode's mount → unmount
     // → remount cycle, so a torn-down instance can't touch a live one.
     let disposed = false;
@@ -34,12 +35,14 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
     );
     camera.position.set(0, 0.5, 2.4);
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // Renderer. Phones report devicePixelRatio 3, which quadruples the fragment
+    // count for no visible gain at this canvas size — clamp it hard.
+    const renderer = new THREE.WebGLRenderer({ antialias: !coarse, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarse ? 1.5 : 2));
+    // No mesh in this scene sets receiveShadow, so the shadow pass rendered a
+    // 2048² depth map every frame that nothing ever sampled.
+    renderer.shadowMap.enabled = false;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
@@ -48,10 +51,6 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const keyLight = new THREE.DirectionalLight(0xfff5e6, 1.5);
     keyLight.position.set(3, 4, 3);
-    keyLight.castShadow = true;
-    keyLight.shadow.camera.near = 0.1;
-    keyLight.shadow.camera.far = 20;
-    keyLight.shadow.mapSize.set(2048, 2048);
     scene.add(keyLight);
     const fillLight = new THREE.DirectionalLight(0xe6f0ff, 0.8);
     fillLight.position.set(-3, 2, 2);
@@ -164,13 +163,16 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
     };
 
     if (!reduceMotion) {
-      window.addEventListener('pointermove', onWindowMove);
+      // Touch devices have no hover, and the handler does a getBoundingClientRect
+      // on every move — pure layout thrash there.
+      if (!coarse) window.addEventListener('pointermove', onWindowMove);
       container.addEventListener('click', onClick);
       container.style.cursor = 'pointer';
     }
 
     // ---- render loop ----
     let raf = 0;
+    let running = false;
     const animate = () => {
       if (disposed) return;
       raf = requestAnimationFrame(animate);
@@ -203,7 +205,25 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
 
       renderer.render(scene, camera);
     };
-    animate();
+
+    // The model tile sits in a full-page scroll deck; don't drive WebGL while
+    // it's scrolled out of view.
+    const startLoop = () => {
+      if (running || disposed) return;
+      running = true;
+      clock.getDelta(); // drop the paused gap so the mixer doesn't fast-forward
+      animate();
+    };
+    const stopLoop = () => {
+      if (!running) return;
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+    const visibility = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? startLoop() : stopLoop()),
+      { rootMargin: '100px' }
+    );
+    visibility.observe(container);
 
     const handleResize = () => {
       const w = container.clientWidth;
@@ -229,6 +249,7 @@ export default function KrixiModel({ height = '400px' }: { height?: string }) {
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      visibility.disconnect();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('pointermove', onWindowMove);
       document.removeEventListener('visibilitychange', onVisible);

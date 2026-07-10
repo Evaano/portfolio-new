@@ -64,6 +64,16 @@
     flex-direction: column;
 }
 
+/* The starfield behind these tiles never stops moving, so each blur re-composites
+   every frame. Eight of them will pin a phone GPU — trade the blur for opacity. */
+@media (pointer: coarse) {
+    .bento-tile__inner {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(10, 6, 12, 0.88);
+    }
+}
+
 /* ---------- Tech marquee ---------- */
 .marquee {
     animation: marquee 26s linear infinite;
