@@ -1,38 +1,37 @@
 {
-  "name": "portfolio",
-  "version": "0.1.0",
+  "name": "portfolio-v2",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src/App.jsx src/main.jsx src/world src/experience --ext js,jsx --max-warnings 0",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.17.2",
-    "@mantine/hooks": "^7.17.2",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.4.0",
-    "@tabler/icons-react": "^3.31.0",
-    "motion": "^12.42.2",
-    "next": "15.2.8",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-simple-typewriter": "^5.0.1",
-    "three": "^0.181.1"
+    "@fontsource/cormorant-garamond": "^5.1.0",
+    "@fontsource/dm-sans": "^5.1.0",
+    "@pixiv/three-vrm": "^3.3.6",
+    "@pixiv/three-vrm-animation": "^3.3.6",
+    "@react-three/fiber": "8.17.10",
+    "lucide-react": "^0.468.0",
+    "prop-types": "^15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "three": "0.170.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/three": "^0.181.0",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.4",
-    "prettier": "^3.5.3",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@playwright/test": "^1.49.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.0.8"
   }
 }

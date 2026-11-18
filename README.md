@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Evan Rasheed — Character Profile
 
-## Getting Started
+Evan Rasheed’s interactive developer portfolio. The side navigation opens Overview, Work, About, and Contact without leaving the character screen. Project details open in a dialog, and the profile remains accessible when WebGL is unavailable.
 
-First, run the development server:
+## Run locally
 
-```bash
+Requires Node.js and npm. From the repository root:
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the URL printed by Vite. Build with `npm run build` and serve the built site locally with `npm run preview`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Navigation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Choose a side icon to switch sections. On small screens the icons move to the bottom. Open a project in Work to see its details; Escape closes the project dialog or returns from a section to Overview. Direct links use `#world`, `#work`, `#about`, and `#contact`.
 
-## Learn More
+Drag the character to rotate and use the mouse wheel to zoom. The pixiv VRM avatar plays a relaxed idle. Overview, Work, About, and Contact each trigger a distinct Overte skeletal clip retargeted to the avatar. Gestures crossfade back into idle, and reduced-motion mode holds a resting pose.
 
-To learn more about Next.js, take a look at the following resources:
+The earlier explorable-world version is preserved in the local Git recovery commits. It is not the current interface.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Checks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+npm run lint
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The browser tests start Vite on port 4173. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to a local Chrome executable to use it instead of Playwright-managed Chromium. See `ASSETS.md` for model provenance and usage limitations.
